@@ -1,0 +1,15 @@
+
+file-fastdfs:
+  #文件上传临时目录
+  upload_location: D:\\upload\\
+  #文件需要拼接的路径
+  path: http://122.51.42.29:8888
+server:
+  port: 8005
+spring:
+  application:
+    name: upload
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/

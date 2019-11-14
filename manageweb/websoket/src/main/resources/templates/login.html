@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        var webSocket = null;
+        if('WebSocket' in window){
+            webSocket =new WebSocket("ws://localhost:8012/chat");
+        }else {
+            alert("Not support webSocket");
+        }
+        webSocket.onerror=function () {
+            setMessageInnerHTML('error');
+        };
+
+        webSocket.onopen=function (event) {
+            setMessageInnerHTML('open');
+        };
+        webSocket.onmessage=function () {
+            setMessageInnerHTML(event.data);
+        };
+        webSocket.onclose=function () {
+            setMessageInnerHTML('close');
+        };
+        window.onbeforeunload=function () {
+            webSocket.close();
+        };
+
+        function setMessageInnerHTML(innerHTML) {
+            document.getElementById('message').innerHTML += innerHTML+'<br>';
+        };
+        function closeWebSocket() {
+            webSocket.close();
+        };
+        function send() {
+            var message = document.getElementById('text').value;
+            webSocket.send(message);
+        }
+    </script>
+</head>
+<body>
+Welcome<br>
+    <input type="text" id="text">
+    <button onclick="send()">Send</button>
+    <button onclick="closeWebSocket()">close</button>
+<div id="message"></div>
+</body>
+</html>
